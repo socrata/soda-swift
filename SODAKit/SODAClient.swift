@@ -55,12 +55,7 @@ class SODAClient {
         }
     }
 
-    /// Get a query object that can be used to query the client using a fluent syntax.
-    func queryDataset(dataset: String) -> SODAQuery {
-        return SODAQuery (client: self, dataset: dataset)
-    }
-    
-    /// Queries a dataset using simple filters. See http://dev.socrata.com/docs/filtering.html
+    /// Asynchronously gets a dataset using a simple filter query. See http://dev.socrata.com/docs/filtering.html
     func getDataset(dataset: String, withFilters: [String: String], limit: Int = SODADefaultLimit, offset: Int = 0, _ completionHandler: SODADatasetCompletionHandler) {
         var ps = withFilters
         ps["$limit"] = "\(limit)"
@@ -68,7 +63,7 @@ class SODAClient {
         getDataset(dataset, withParameters: ps, completionHandler)
     }
 
-    /// Low-level access for asynchronously getting a dataset. You should use the queryDataset functions instead of this. See http://dev.socrata.com/docs/queries.html
+    /// Low-level access for asynchronously getting a dataset. You should use SODAQueries instead of this. See http://dev.socrata.com/docs/queries.html
     func getDataset(dataset: String, withParameters: [String: String], _ completionHandler: SODADatasetCompletionHandler) {
         // Get the URL
         let query = SODAClient.paramsToQueryString (withParameters)
@@ -136,6 +131,14 @@ class SODAClient {
             head = "&"
         }
         return s
+    }
+}
+
+/// SODAQuery extension to SODAClient
+extension SODAClient {
+    /// Get a query object that can be used to query the client using a fluent syntax.
+    func queryDataset(dataset: String) -> SODAQuery {
+        return SODAQuery (client: self, dataset: dataset)
     }
 }
 
