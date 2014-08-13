@@ -48,7 +48,7 @@ That completion handler is given an enumeration `SODADatasetResult` with two pos
 * **Error** with the `NSError` if the query failed.
 
 
-#### Query options
+#### Query Options
 
 There are many more query options than just `filterColumn`. We could have also written:
 
@@ -63,23 +63,25 @@ We can then limit the results and control the offset to perform paging:
     fuelLocations.limit(10).offset(0)
 
 
-#### Chaining queries
+#### Chaining Queries
 
 Queries can be easily composed and stored in variables. This allows you to keep your code clean and easily construct derivative queries.
 
-For example, we may have an app that has a base query:
+For example, we may have an app that has a base query called `fuelLocations`:
 
     let fuelLocations = client.queryDataset("alternative-fuel-locations")
 
-The app allows the user to choose two types of stations: natural gas and electric.
+The app allows the user to choose two types of stations: natural gas and electric. This decision is encapsulated in the query `stations`.
 
     let userWantsNaturalGas = true // Get this from the UI
 
     let stations = fuelLocations.filterColumn("fuel_type_code", userWantsNaturalGas ? "CNG" : "ELEC")
 
-The app can also display the data sorted in two different directions:
+The app can also display the data sorted in two different directions and stores this in `orderedStations`:
 
-    let orderedStations = userWantsAsceding ?
+    let userWantsAscending = true // Get this from the UI
+
+    let orderedStations = userWantsAscending ?
         stations.orderAscending("station_name") :
         stations.orderDescending("station_name")
 
