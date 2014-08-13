@@ -1,15 +1,15 @@
 # soda-swift
 
-Swift library to access [Socrata OpenData](https://opendata.socrata.com) servers. It is compatible with iOS 8 and OS X 10.10.
+**soda-swift** is a native [Swift]() library to access [Socrata OpenData](https://opendata.socrata.com) servers. It is compatible with iOS 8 and OS X 10.10.
 
 
 ## Getting Started
 
-### 1. [Get an access token for your app](http://dev.socrata.com/register)
+### 1. [Get an access token](http://dev.socrata.com/register) for your app
 
-### 2. Reference [SODAKit/SODAClient.swift](./SODAKit/SODAClient.swift) in your app
+### 2. Reference [SODAKit/SODAClient.swift](./SODAKit/SODAClient.swift) in Xcode
 
-### 3. Initialize a client
+### 3. Initialize a `SODAClient`
 
 	let client = SODAClient(domain: "(Domain name of the server)", token: "(Your app's access token)")
 
@@ -21,13 +21,15 @@ For example,
 
 ### 4. Query for data
 
-Here is a simple filter query to find charging stations in Chicago:
+Here is a simple filter query to find compressed natural gas stations in Chicago:
 
-    client.queryDataset("alternative-fuel-locations", withFilters: ["fuel_type_code": "CNG"], limit: 200) { res in
+    let fuelLocations = client.queryDataset("alternative-fuel-locations")
+
+    fuelLocations.filterColumn ("fuel_type_code", "CNG").get { res in
         switch res {
         case .Dataset (let data):
 
-            // Display data
+            // Display the data
 
         case .Error (let error):
 
@@ -36,13 +38,64 @@ Here is a simple filter query to find charging stations in Chicago:
         }
     }
 
-Note that the `queryDataset` function is asynchronous and that the last argument is a completion handler.
+Note the use of `filterColumn` to get only compressed natural gas stations.
+
+Also note that the final `get` function is asynchronous and that the last argument is a completion handler. For your convenience, **soda-swift** automatically schedules the handler on the main operation queue.
 
 That completion handler is given an enumeration `SODADatasetResult` with two possible values:
 
-* **Dataset** if the query succeeded. The array of rows is associated with it.
-* **Error** if there was an error. The `NSError` is associated with it.
+* **Dataset** with an array of rows if the query succeeded.
+* **Error** with the `NSError` if the query failed.
 
+
+#### Query options
+
+There are many more query options than just `filterColumn`. We could have also written:
+
+    fuelLocations.filter("fuel_type_code = 'CNG'")
+
+We can also order the results:
+
+    fuelLocations.orderAscending("station_name")
+
+We can then limit the results and control the offset to perform paging:
+
+    fuelLocations.limit(10).offset(0)
+
+
+#### Chaining queries
+
+Queries can be easily composed and stored in variables. This allows you to keep your code clean and easily construct derivative queries.
+
+For example, we may have an app that has a base query:
+
+    let fuelLocations = client.queryDataset("alternative-fuel-locations")
+
+The app allows the user to choose two types of stations: natural gas and electric.
+
+    let userWantsNaturalGas = true // Get this from the UI
+
+    let stations = fuelLocations.filterColumn("fuel_type_code", userWantsNaturalGas ? "CNG" : "ELEC")
+
+The app can also display the data sorted in two different directions:
+
+    let orderedStations = userWantsAsceding ?
+        stations.orderAscending("station_name") :
+        stations.orderDescending("station_name")
+
+Now the app can easily query the results:
+
+    orderedStations.get { result in
+
+        // Display the data or the error
+
+    }
+
+
+
+## API Reference
+
+The full API Reference can be found in [Reference.md](./Reference.md).
 
 ## Sample App
 
