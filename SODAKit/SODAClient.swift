@@ -87,13 +87,11 @@ class SODAClient {
         var task = session.dataTaskWithRequest(request, completionHandler: { data, response, reqError in
             
             // We sync the callback with the main thread to make UI programming easier
-            let syncCompletion = { (r: SODADatasetResult) in
-                NSOperationQueue.mainQueue().addOperationWithBlock({ () in completionHandler (r) })
-            }
+            let syncCompletion = { res in NSOperationQueue.mainQueue().addOperationWithBlock { completionHandler (res) } }
             
             // Give up if there was a net error
             if reqError != nil {
-                syncCompletion (.Error (reqError))
+                syncCompletion(.Error (reqError))
                 return
             }
             
@@ -103,25 +101,25 @@ class SODAClient {
             var jsonError: NSError?
             var jsonResult: AnyObject! = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &jsonError)
             if let error = jsonError {
-                syncCompletion (.Error (error))
+                syncCompletion(.Error (error))
                 return
             }
             
             // Interpret the JSON
             if let a = jsonResult as? [[String: AnyObject]] {
-                syncCompletion (.Dataset (a))
+                syncCompletion(.Dataset (a))
             }
             else if let d = jsonResult as? [String: AnyObject] {
                 if let e : AnyObject = d["error"] {
                     if let m : AnyObject = d["message"] {
-                        syncCompletion (.Error (NSError(domain: "SODA", code: 0, userInfo: ["Error": m])))
+                        syncCompletion(.Error (NSError(domain: "SODA", code: 0, userInfo: ["Error": m])))
                         return
                     }
                 }
-                syncCompletion (.Dataset ([d]))
+                syncCompletion(.Dataset ([d]))
             }
             else {
-                syncCompletion (.Error (NSError()))
+                syncCompletion(.Error (NSError()))
             }
         })
         task.resume()
@@ -132,8 +130,8 @@ class SODAClient {
         var s = ""
         var head = ""
         for (key, value) in params {
-            let sk = "\(key)".stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
-            let sv = "\(value)".stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
+            let sk = key.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
+            let sv = value.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
             s += "\(head)\(sk)=\(sv)"
             head = "&"
         }
