@@ -7,7 +7,7 @@ Swift library to access [Socrata OpenData](https://opendata.socrata.com) servers
 
 ### 1. [Get an access token for your app](http://dev.socrata.com/register)
 
-### 2. Reference [SODAKit/SODAClient.swift]() in your app
+### 2. Reference [SODAKit/SODAClient.swift](./SODAKit/SODAClient.swift) in your app
 
 ### 3. Initialize a client
 
@@ -48,8 +48,8 @@ That completion handler is given an enumeration `SODADatasetResult` with two pos
 
 A sample app that shows alternative fuel locations in Chicago is included.
 
-1. Open [soda-swift.xcodeproj]()
-2. Modify [SODASample/AppDelegate.swift]() to insert your access token
+1. Open [soda-swift.xcodeproj](./soda-swift.xcodeproj)
+2. Modify [SODASample/AppDelegate.swift](./SODASample/AppDelegate.swift) to insert your access token
 3. Ensure that the target **SODASample** is selected
 4. **Run**
 

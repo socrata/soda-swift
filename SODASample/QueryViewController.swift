@@ -10,6 +10,10 @@ import UIKit
 
 class QueryViewController: UITableViewController {
     
+    // Register for access tokens here: http://dev.socrata.com/register
+
+    let client = SODAClient(domain: "data.cityofchicago.org", token: "(Put your access token here)")
+    
     let cellId = "DetailCell"
     
     var data: [[String: AnyObject]]! = []
@@ -27,14 +31,14 @@ class QueryViewController: UITableViewController {
     
     /// Asynchronous performs the data query then updates the UI
     func refresh (sender: AnyObject!) {
-        // Query the data
-        let client = (UIApplication.sharedApplication().delegate as AppDelegate!).client
+
+        let cngQuery = client.queryDataset("alternative-fuel-locations").filter("fuel_type_code = 'CNG'")
         
-        client.queryDataset("alternative-fuel-locations", withFilters: ["fuel_type_code": "CNG"], limit: 200) { res in
+        cngQuery.orderAscending("station_name").get { res in
             switch res {
-            case .Dataset (let json):
+            case .Dataset (let data):
                 // Update our data
-                self.data = json
+                self.data = data
             case .Error (let err):
                 let alert = UIAlertView(title: "Error Refreshing", message: err.userInfo.debugDescription, delegate: nil, cancelButtonTitle: "OK")
                 alert.show()

@@ -13,10 +13,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             
     var window: UIWindow?
     
-    // Register for access tokens here: http://dev.socrata.com/register
-    
-    let client = SODAClient(domain: "data.cityofchicago.org", token: "(Put your access token here)")
-    
     func application(application: UIApplication!, didFinishLaunchingWithOptions launchOptions: NSDictionary!) -> Bool {
         return true
     }
