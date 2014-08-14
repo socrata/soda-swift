@@ -1,6 +1,6 @@
 # soda-swift
 
-**soda-swift** is a native [Swift]() library to access [Socrata OpenData](https://opendata.socrata.com) servers. It is compatible with iOS 8 and OS X 10.10.
+**soda-swift** is a native [Swift](https://developer.apple.com/library/prerelease/mac/documentation/Swift/Conceptual/Swift_Programming_Language) library to access [Socrata OpenData](https://opendata.socrata.com) servers. It is compatible with iOS 8 and OS X 10.10.
 
 
 ## Getting Started
