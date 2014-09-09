@@ -1,7 +1,7 @@
 destination: "public/soda-swift"
 exclude: [Gemfile, Gemfile.lock, .rvmrc, public, Makefile]
 
-ga_tracking_code: "REPLACEME"
+ga_tracking_code: "UA-9046230-8"
 
 subsite: soda-swift
 title: SODA Swift SDK (Beta)
