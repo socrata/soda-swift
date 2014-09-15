@@ -1,12 +1,12 @@
 ---
 layout: with-sidebar
-title: Swift SODA SDK (Beta)
+title: Swift SODA SDK
 bodyclass: homepage
 ---
 
 <div class="alert alert-info">
   <strong>Heads up!</strong>
-  Swift is currently still in beta, but if you're a registered Apple developer, you can download the XCode Beta and try it out yourself. For more information, see the <a href="https://developer.apple.com/swift/resources/">Swift resources page</a>.
+  Swift (the language) is currently still in beta, but if you're a registered Apple developer, you can download the XCode Beta and try it out yourself. For more information, see the <a href="https://developer.apple.com/swift/resources/">Swift resources page</a>.
 </div>
 
 <img src="img/swift-logo.png" class="pull-right" alt="Swift"/>
