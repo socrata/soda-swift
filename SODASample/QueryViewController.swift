@@ -23,7 +23,7 @@ class QueryViewController: UITableViewController {
 
         // Create a pull-to-refresh control
         refreshControl = UIRefreshControl ()
-        refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl?.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         
         // Auto-refresh
         refresh(self)
@@ -45,7 +45,7 @@ class QueryViewController: UITableViewController {
             }
             
             // Update the UI
-            self.refreshControl.endRefreshing()
+            self.refreshControl?.endRefreshing()
             self.tableView.reloadData()
             self.updateMap(animated: true)
         }
@@ -53,8 +53,8 @@ class QueryViewController: UITableViewController {
     
     /// Finds the map controller and updates its data
     private func updateMap(#animated: Bool) {
-        if let tabs = (self.parentViewController.parentViewController as? UITabBarController) {
-            if let mapNav = tabs.viewControllers[1] as? UINavigationController {
+        if let tabs = (self.parentViewController?.parentViewController as? UITabBarController) {
+            if let mapNav = tabs.viewControllers![1] as? UINavigationController {
                 if let map = mapNav.viewControllers[0] as? MapViewController {
                     map.updateWithData (data, animated: animated)
                 }
@@ -64,7 +64,7 @@ class QueryViewController: UITableViewController {
     
     override func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
         // Show the map
-        if let tabs = (self.parentViewController.parentViewController as? UITabBarController) {
+        if let tabs = (self.parentViewController?.parentViewController as? UITabBarController) {
             tabs.selectedIndex = 1
         }
     }
@@ -73,18 +73,18 @@ class QueryViewController: UITableViewController {
         return data.count
     }
     
-    override func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let c = tableView.dequeueReusableCellWithIdentifier(cellId) as UITableViewCell!
         
         let item = data[indexPath.row]
         
         let name = item["station_name"]! as String
-        c.textLabel.text = name
+        c.textLabel?.text = name
         
         let street = item["street_address"]! as String
         let city = item["city"]! as String
         let state = item["state"]! as String
-        c.detailTextLabel.text = "\(street), \(city), \(state)"
+        c.detailTextLabel?.text = "\(street), \(city), \(state)"
         
         return c
     }

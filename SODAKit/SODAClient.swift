@@ -73,7 +73,7 @@ class SODAClient {
         let urlToSend = NSURL(string: url)
         
         // Build the request
-        let request = NSMutableURLRequest(URL: urlToSend)
+        let request = NSMutableURLRequest(URL: urlToSend!)
         request.addValue("application/json", forHTTPHeaderField:"Accept")
         request.addValue(self.token, forHTTPHeaderField:"X-App-Token")
         
@@ -125,8 +125,8 @@ class SODAClient {
         var s = ""
         var head = ""
         for (key, value) in params {
-            let sk = key.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
-            let sv = value.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
+            let sk = key.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
+            let sv = value.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
             s += "\(head)\(sk)=\(sv)"
             head = "&"
         }
