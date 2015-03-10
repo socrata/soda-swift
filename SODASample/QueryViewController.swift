@@ -12,7 +12,7 @@ class QueryViewController: UITableViewController {
     
     // Register for access tokens here: http://dev.socrata.com/register
 
-    let client = SODAClient(domain: "data.cityofchicago.org", token: "(Put your access token here)")
+    let client = SODAClient(domain: "data.seattle.gov", token: "CGxaHQoQlgQSev4zyUh5aR5J3")
     
     let cellId = "DetailCell"
     
@@ -32,9 +32,9 @@ class QueryViewController: UITableViewController {
     /// Asynchronous performs the data query then updates the UI
     func refresh (sender: AnyObject!) {
 
-        let cngQuery = client.queryDataset("alternative-fuel-locations").filter("fuel_type_code = 'CNG'")
+        let cngQuery = client.queryDataset("3k2p-39jp").filter("within_circle(incident_location, 47.59815, -122.334540, 500) AND event_clearance_group IS NOT NULL")
         
-        cngQuery.orderAscending("station_name").get { res in
+        cngQuery.orderAscending("at_scene_time").get { res in
             switch res {
             case .Dataset (let data):
                 // Update our data
@@ -78,12 +78,12 @@ class QueryViewController: UITableViewController {
         
         let item = data[indexPath.row]
         
-        let name = item["station_name"]! as String
+        let name = item["event_clearance_description"]! as String
         c.textLabel?.text = name
         
-        let street = item["street_address"]! as String
-        let city = item["city"]! as String
-        let state = item["state"]! as String
+        let street = item["hundred_block_location"]! as String
+        let city = "Seattle"
+        let state = "WA"
         c.detailTextLabel?.text = "\(street), \(city), \(state)"
         
         return c
