@@ -74,14 +74,14 @@ class QueryViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let c = tableView.dequeueReusableCellWithIdentifier(cellId) as UITableViewCell!
+        let c = tableView.dequeueReusableCellWithIdentifier(cellId) as! UITableViewCell!
         
         let item = data[indexPath.row]
         
-        let name = item["event_clearance_description"]! as String
+        let name = item["event_clearance_description"]! as! String
         c.textLabel?.text = name
         
-        let street = item["hundred_block_location"]! as String
+        let street = item["hundred_block_location"]! as! String
         let city = "Seattle"
         let state = "WA"
         c.detailTextLabel?.text = "\(street), \(city), \(state)"

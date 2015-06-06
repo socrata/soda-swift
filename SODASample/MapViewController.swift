@@ -43,12 +43,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         var anns : [MKAnnotation] = []
         for item in data {
             if let loc: AnyObject = item["incident_location"] {
-                let lat = (item["latitude"]! as NSString).doubleValue
-                let lon = (item["longitude"]! as NSString).doubleValue
+                let lat = (item["latitude"]! as! NSString).doubleValue
+                let lon = (item["longitude"]! as! NSString).doubleValue
                 lata += lat
                 lona += lon
                 let a = MKPointAnnotation()
-                a.title = item["event_clearance_description"]! as String
+                a.title = item["event_clearance_description"]! as! String
                 a.coordinate = CLLocationCoordinate2D (latitude: lat, longitude: lon)
                 anns.append(a)
             }
