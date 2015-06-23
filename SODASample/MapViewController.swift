@@ -42,13 +42,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         // Create annotations for the data
         var anns : [MKAnnotation] = []
         for item in data {
-            if let loc: AnyObject = item["location"] {
-                let lat = (item["latitude"]! as NSString).doubleValue
-                let lon = (item["longitude"]! as NSString).doubleValue
+            if let loc: AnyObject = item["incident_location"] {
+                let lat = (item["latitude"]! as! NSString).doubleValue
+                let lon = (item["longitude"]! as! NSString).doubleValue
                 lata += lat
                 lona += lon
                 let a = MKPointAnnotation()
-                a.title = item["station_name"]! as String
+                a.title = item["event_clearance_description"]! as! String
                 a.coordinate = CLLocationCoordinate2D (latitude: lat, longitude: lon)
                 anns.append(a)
             }
@@ -58,7 +58,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         if (anns.count > 0) {
             mapView.addAnnotations(anns)
             let w = 1.0 / Double(anns.count)
-            let r = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: lata*w, longitude: lona*w), 40000, 40000)
+            let r = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: lata*w, longitude: lona*w), 2000, 2000)
             mapView.setRegion(r, animated: animated)
         }
     }
