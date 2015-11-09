@@ -135,9 +135,9 @@ class SODAClient {
         var s = ""
         var head = ""
         for (key, value) in params {
-            let sk = key.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
-            let sv = value.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
-            s += "\(head)\(sk)=\(sv)"
+            let sk = key.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())
+            let sv = value.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())
+            s += head+sk!+"="+sv!
             head = "&"
         }
         return s
