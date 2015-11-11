@@ -85,8 +85,8 @@ class SODAClient {
             let syncCompletion = { res in NSOperationQueue.mainQueue().addOperationWithBlock { completionHandler (res) } }
             
             // Give up if there was a net error
-            if reqError != nil {
-                syncCompletion(.Error (reqError))
+            if let error = reqError {
+                syncCompletion(.Error (error))
                 return
             }
             
@@ -94,7 +94,15 @@ class SODAClient {
 //            println(NSString (data: data, encoding: NSUTF8StringEncoding))
             
             var jsonError: NSError?
-            var jsonResult: AnyObject! = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &jsonError)
+            var jsonResult: AnyObject!
+            do {
+                jsonResult = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)
+            } catch var error as NSError {
+                jsonError = error
+                jsonResult = nil
+            } catch {
+                fatalError()
+            }
             if let error = jsonError {
                 syncCompletion(.Error (error))
                 return
@@ -114,7 +122,9 @@ class SODAClient {
                 syncCompletion(.Dataset ([d]))
             }
             else {
-                syncCompletion(.Error (NSError()))
+                if let error = reqError {
+                    syncCompletion(.Error (error))
+                }
             }
         })
         task.resume()
@@ -125,9 +135,9 @@ class SODAClient {
         var s = ""
         var head = ""
         for (key, value) in params {
-            let sk = key.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
-            let sv = value.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
-            s += "\(head)\(sk)=\(sv)"
+            let sk = key.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())
+            let sv = value.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())
+            s += head+sk!+"="+sv!
             head = "&"
         }
         return s
