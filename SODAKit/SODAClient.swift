@@ -15,21 +15,21 @@ let SODADefaultLimit = 1000
 
 /// The result of an asynchronous SODAClient.queryDataset call. It can either succeed with data or fail with an error.
 enum SODADatasetResult {
-    case Dataset ([[String: AnyObject]])
-    case Error (NSError)
+    case dataset ([[String: Any]])
+    case error (Error)
 }
 
 /// The result of an asynchronous SODAClient.getRow call. It can either succeed with data or fail with an error.
 enum SODARowResult {
-    case Row ([String: AnyObject])
-    case Error (NSError)
+    case row ([String: Any])
+    case error (Error)
 }
 
 /// Callback for asynchronous queryDataset methods of SODAClient
-typealias SODADatasetCompletionHandler = SODADatasetResult -> Void
+typealias SODADatasetCompletionHandler = (SODADatasetResult) -> Void
 
 /// Callback for asynchronous getRow method of SODAClient
-typealias SODARowCompletionHandler = SODARowResult -> Void
+typealias SODARowCompletionHandler = (SODARowResult) -> Void
 
 /// Consumes data from a Socrata OpenData end point.
 class SODAClient {
@@ -44,99 +44,96 @@ class SODAClient {
     }
 
     /// Gets a row using its identifier. See http://dev.socrata.com/docs/row-identifiers.html
-    func getRow(row: String, inDataset: String, _ completionHandler: SODARowCompletionHandler) {
-        getDataset("\(inDataset)/\(row)", withParameters: [:]) { res in
+    func get(row: String, inDataset: String, _ completionHandler: @escaping SODARowCompletionHandler) {
+        get(dataset: "\(inDataset)/\(row)", withParameters: [:]) { res in
             switch res {
-            case .Dataset (let rows):
-                completionHandler(.Row (rows[0]))
-            case .Error(let err):
-                completionHandler(.Error (err))
+            case .dataset (let rows):
+                completionHandler(.row (rows[0]))
+            case .error(let err):
+                completionHandler(.error (err))
             }
         }
     }
 
     /// Asynchronously gets a dataset using a simple filter query. See http://dev.socrata.com/docs/filtering.html
-    func getDataset(dataset: String, withFilters: [String: String], limit: Int = SODADefaultLimit, offset: Int = 0, _ completionHandler: SODADatasetCompletionHandler) {
+    func get(dataset: String, withFilters: [String: String], limit: Int = SODADefaultLimit, offset: Int = 0, _ completionHandler: @escaping SODADatasetCompletionHandler) {
         var ps = withFilters
         ps["$limit"] = "\(limit)"
         ps["$offset"] = "\(offset)"
-        getDataset(dataset, withParameters: ps, completionHandler)
+        get(dataset: dataset, withParameters: ps, completionHandler)
     }
 
     /// Low-level access for asynchronously getting a dataset. You should use SODAQueries instead of this. See http://dev.socrata.com/docs/queries.html
-    func getDataset(dataset: String, withParameters: [String: String], _ completionHandler: SODADatasetCompletionHandler) {
+    func get(dataset: String, withParameters: [String: String], _ completionHandler: @escaping SODADatasetCompletionHandler) {
         // Get the URL
         let query = SODAClient.paramsToQueryString (withParameters)
         let path = dataset.hasPrefix("/") ? dataset : ("/resource/" + dataset)
         
         let url = "https://\(self.domain)\(path).json?\(query)"
-        let urlToSend = NSURL(string: url)
+        let urlToSend = URL(string: url)
         
         // Build the request
-        let request = NSMutableURLRequest(URL: urlToSend!)
+        let request = NSMutableURLRequest(url: urlToSend!)
         request.addValue("application/json", forHTTPHeaderField:"Accept")
         request.addValue(self.token, forHTTPHeaderField:"X-App-Token")
         
         // Send it
-        let session = NSURLSession.sharedSession()
-        var task = session.dataTaskWithRequest(request, completionHandler: { data, response, reqError in
-            
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest) { data, response, reqError in
+        
             // We sync the callback with the main thread to make UI programming easier
-            let syncCompletion = { res in NSOperationQueue.mainQueue().addOperationWithBlock { completionHandler (res) } }
+            let syncCompletion = { res in OperationQueue.main.addOperation { completionHandler (res) } }
             
             // Give up if there was a net error
             if let error = reqError {
-                syncCompletion(.Error (error))
+                syncCompletion(.error (error))
                 return
             }
             
             // Try to parse the JSON
 //            println(NSString (data: data, encoding: NSUTF8StringEncoding))
             
-            var jsonError: NSError?
-            var jsonResult: AnyObject!
+            var jsonError: Error?
+            var jsonResult: Any!
             do {
-                jsonResult = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)
-            } catch var error as NSError {
+                jsonResult = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)
+            } catch let error {
                 jsonError = error
                 jsonResult = nil
-            } catch {
-                fatalError()
             }
+            
             if let error = jsonError {
-                syncCompletion(.Error (error))
+                syncCompletion(.error (error))
                 return
             }
             
             // Interpret the JSON
-            if let a = jsonResult as? [[String: AnyObject]] {
-                syncCompletion(.Dataset (a))
+            if let array = jsonResult as? [[String: Any]] {
+                syncCompletion(.dataset (array))
             }
-            else if let d = jsonResult as? [String: AnyObject] {
-                if let e : AnyObject = d["error"] {
-                    if let m : AnyObject = d["message"] {
-                        syncCompletion(.Error (NSError(domain: "SODA", code: 0, userInfo: ["Error": m])))
-                        return
-                    }
+            else if let dict = jsonResult as? [String: Any] {
+                if let _ = dict["error"], let errorMessage = dict["message"] {
+                    syncCompletion(.error (NSError(domain: "SODA", code: 0, userInfo: ["Error": errorMessage])))
+                    return
                 }
-                syncCompletion(.Dataset ([d]))
+                syncCompletion(.dataset ([dict]))
             }
             else {
                 if let error = reqError {
-                    syncCompletion(.Error (error))
+                    syncCompletion(.error (error))
                 }
             }
-        })
+        }
         task.resume()
     }
     
     /// Converts an NSDictionary into a query string.
-    private class func paramsToQueryString (params: [String: String]) -> String {
+    fileprivate class func paramsToQueryString (_ params: [String: String]) -> String {
         var s = ""
         var head = ""
         for (key, value) in params {
-            let sk = key.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())
-            let sv = value.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())
+            let sk = key.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
+            let sv = value.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
             s += head+sk!+"="+sv!
             head = "&"
         }
@@ -147,7 +144,7 @@ class SODAClient {
 /// SODAQuery extension to SODAClient
 extension SODAClient {
     /// Get a query object that can be used to query the client using a fluent syntax.
-    func queryDataset(dataset: String) -> SODAQuery {
+    func query(dataset: String) -> SODAQuery {
         return SODAQuery (client: self, dataset: dataset)
     }
 }
@@ -169,83 +166,83 @@ class SODAQuery
     }
 
     /// Generates SoQL $select parameter. Use the AS operator to modify the output.
-    func select(select: String) -> SODAQuery {
+    func select(_ select: String) -> SODAQuery {
         var ps = self.parameters
         ps["$select"] = select
         return SODAQuery (client: self.client, dataset: self.dataset, parameters: ps)
     }
     
     /// Generates SoQL $where parameter. Use comparison operators and AND, OR, NOT, IS NULL, IS NOT NULL. Strings must be single-quoted.
-    func filter(filter: String) -> SODAQuery {
+    func filter(_ filter: String) -> SODAQuery {
         var ps = self.parameters
         ps["$where"] = filter
         return SODAQuery (client: self.client, dataset: self.dataset, parameters: ps)
     }
     
     /// Generates simple filter parameter. Multiple filterColumns are allowed in a single query.
-    func filterColumn(column: String, _ value: String) -> SODAQuery {
+    func filterColumn(_ column: String, _ value: String) -> SODAQuery {
         var ps = self.parameters
         ps[column] = value
         return SODAQuery (client: self.client, dataset: self.dataset, parameters: ps)
     }
 
     /// Generates SoQL $q parameter. This uses a multi-column full text search.
-    func fullText(fullText: String) -> SODAQuery {
+    func fullText(_ fullText: String) -> SODAQuery {
         var ps = self.parameters
         ps["$q"] = fullText
         return SODAQuery (client: self.client, dataset: self.dataset, parameters: ps)
     }
     
     /// Generates SoQL $order ASC parameter.
-    func orderAscending(column: String) -> SODAQuery {
+    func orderAscending(_ column: String) -> SODAQuery {
         var ps = self.parameters
         ps["$order"] = "\(column) ASC"
         return SODAQuery (client: self.client, dataset: self.dataset, parameters: ps)
     }
 
     /// Generates SoQL $order DESC parameter.
-    func orderDescending(column: String) -> SODAQuery {
+    func orderDescending(_ column: String) -> SODAQuery {
         var ps = self.parameters
         ps["$order"] = "\(column) DESC"
         return SODAQuery (client: self.client, dataset: self.dataset, parameters: ps)
     }
     
     /// Generates SoQL $group parameter. Use select() with aggregation functions like MAX and then name the column to group by.
-    func group(column: String) -> SODAQuery {
+    func group(_ column: String) -> SODAQuery {
         var ps = self.parameters
         ps["$group"] = column
         return SODAQuery (client: self.client, dataset: self.dataset, parameters: ps)
     }
     
     /// Generates SoQL $limit parameter. The default limit is 1000.
-    func limit(limit: Int) -> SODAQuery {
+    func limit(_ limit: Int) -> SODAQuery {
         var ps = self.parameters
         ps["$limit"] = "\(limit)"
         return SODAQuery (client: self.client, dataset: self.dataset, parameters: ps)
     }
     
     /// Generates SoQL $offset parameter.
-    func offset(offset: Int) -> SODAQuery {
+    func offset(_ offset: Int) -> SODAQuery {
         var ps = self.parameters
         ps["$offset"] = "\(offset)"
         return SODAQuery (client: self.client, dataset: self.dataset, parameters: ps)
     }
     
     /// Performs the query asynchronously and sends all the results to the completion handler.
-    func get(completionHandler: SODADatasetResult -> Void) {
-        client.getDataset(dataset, withParameters: parameters, completionHandler)
+    func get(_ completionHandler: @escaping (SODADatasetResult) -> Void) {
+        client.get(dataset: dataset, withParameters: parameters, completionHandler)
     }
 
     /// Performs the query asynchronously and sends the results, one row at a time, to an iterator function.
-    func each(iterator: SODARowResult -> Void) {
-        client.getDataset(dataset, withParameters: parameters) { res in
+    func each(_ iterator: @escaping (SODARowResult) -> Void) {
+        client.get(dataset: dataset, withParameters: parameters) { res in
             switch res {
-            case .Dataset (let data):
+            case .dataset (let data):
                 for row in data {
-                    iterator(.Row (row))
+                    iterator(.row (row))
                 }
-            case .Error (let err):
-                iterator(.Error (err))
+            case .error (let err):
+                iterator(.error (err))
             }
         }
     }

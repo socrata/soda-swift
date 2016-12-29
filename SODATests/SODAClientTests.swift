@@ -20,149 +20,149 @@ class SODAClientTests: XCTestCase {
     
     // TODO: Test this once we find valid row IDs
     func ignoreTestRowGet() {
-        let e = expectationWithDescription("get")
+        let e = expectation(description: "get")
         
-        client.getRow("62312", inDataset:"alternative-fuel-locations") { res in
+        client.get(row: "62312", inDataset:"alternative-fuel-locations") { res in
             switch res {
-            case .Row (let row):
+            case .row (let row):
                 XCTAssertGreaterThanOrEqual(row.count, 20, "At least 20 results")
-            case .Error (let err):
-                XCTAssert(false, err.userInfo.debugDescription)
+            case .error (let err):
+                XCTAssert(false, (err as NSError).userInfo.debugDescription)
             }
             e.fulfill()
         }
         
-        waitForExpectationsWithTimeout(10, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
     }
     
     func testRowMissing() {
-        let e = expectationWithDescription("get")
+        let e = expectation(description: "get")
         
-        client.getRow("8923884", inDataset:"alternative-fuel-locations") { res in
+        client.get(row: "8923884", inDataset:"alternative-fuel-locations") { res in
             switch res {
-            case .Row (let row):
+            case .row (_):
                 XCTAssert(false, "Row should not exist")
-            case .Error (let err):
+            case .error (_):
                 XCTAssert(true, "Pass")
             }
             e.fulfill()
         }
         
-        waitForExpectationsWithTimeout(10, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
     }
 
     func testQueryNoFilterWithLimit() {
-        let e = expectationWithDescription("get")
+        let e = expectation(description: "get")
         
-        client.queryDataset("alternative-fuel-locations").limit(30).get { res in
+        client.query(dataset: "alternative-fuel-locations").limit(30).get { res in
             switch res {
-            case .Dataset (let data):
+            case .dataset (let data):
                 XCTAssertEqual(data.count, 30, "30 results")
-            case .Error (let err):
-                XCTAssert(false, err.userInfo.debugDescription)
+            case .error (let err):
+                XCTAssert(false, (err as NSError).userInfo.debugDescription)
             }
             e.fulfill()
         }
         
-        waitForExpectationsWithTimeout(10, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
     }
 
     func testQueryNoFilter() {
-        let e = expectationWithDescription("get")
+        let e = expectation(description: "get")
         
-        client.queryDataset("alternative-fuel-locations").get { res in
+        client.query(dataset: "alternative-fuel-locations").get { res in
             switch res {
-            case .Dataset (let data):
+            case .dataset (let data):
                 XCTAssertGreaterThan(data.count, 100, "At least 100 results")
-            case .Error (let err):
-                XCTAssert(false, err.userInfo.debugDescription)
+            case .error (let err):
+                XCTAssert(false, (err as NSError).userInfo.debugDescription)
             }
             e.fulfill()
         }
         
-        waitForExpectationsWithTimeout(10, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
     }
 
     func testQuerySimpleFilter() {
-        let e = expectationWithDescription("get")
+        let e = expectation(description: "get")
         
-        client.queryDataset("alternative-fuel-locations").filterColumn("fuel_type_code", "CNG").get { res in
+        client.query(dataset: "alternative-fuel-locations").filterColumn("fuel_type_code", "CNG").get { res in
             switch res {
-            case .Dataset (let data):
+            case .dataset (let data):
                 XCTAssertGreaterThanOrEqual(data.count, 20, "At least 20 results")
-            case .Error (let err):
-                XCTAssert(false, err.userInfo.debugDescription)
+            case .error (let err):
+                XCTAssert(false, (err as NSError).userInfo.debugDescription)
             }
             e.fulfill()
         }
 
-        waitForExpectationsWithTimeout(10, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
     }
     
     func testQuerySimpleFilterWithLimit() {
-        let e = expectationWithDescription("get")
+        let e = expectation(description: "get")
         
-        client.queryDataset("alternative-fuel-locations").filterColumn("fuel_type_code", "CNG").limit(10).get { res in
+        client.query(dataset: "alternative-fuel-locations").filterColumn("fuel_type_code", "CNG").limit(10).get { res in
             switch res {
-            case .Dataset (let data):
+            case .dataset (let data):
                 XCTAssertEqual(data.count, 10, "Limited to 10")
-            case .Error (let err):
-                XCTAssert(false, err.userInfo.debugDescription)
+            case .error (let err):
+                XCTAssert(false, (err as NSError).userInfo.debugDescription)
             }
             e.fulfill()
         }
         
-        waitForExpectationsWithTimeout(10, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
     }
     
     func testQueryFullText() {
-        let e = expectationWithDescription("get")
+        let e = expectation(description: "get")
         
-        client.queryDataset("alternative-fuel-locations").fullText("University").get { res in
+        client.query(dataset: "alternative-fuel-locations").fullText("University").get { res in
             switch res {
-            case .Dataset (let data):
+            case .dataset (let data):
                 XCTAssertGreaterThanOrEqual(data.count, 1, "At least 1")
-            case .Error (let err):
-                XCTAssert(false, err.userInfo.debugDescription)
+            case .error (let err):
+                XCTAssert(false, (err as NSError).userInfo.debugDescription)
             }
             e.fulfill()
         }
         
-        waitForExpectationsWithTimeout(10, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
     }
 
     func testQueryGroup() {
-        let e = expectationWithDescription("get")
+        let e = expectation(description: "get")
         
-        demoClient.queryDataset("4tka-6guv").select("region,MAX(magnitude)").group ("region").get { res in
+        demoClient.query(dataset: "4tka-6guv").select("region,MAX(magnitude)").group ("region").get { res in
             switch res {
-            case .Dataset (let data):
+            case .dataset (let data):
                 XCTAssertGreaterThanOrEqual(data.count, 1000, "At least 1")
-            case .Error (let err):
-                XCTAssert(false, err.userInfo.debugDescription)
+            case .error (let err):
+                XCTAssert(false, (err as NSError).userInfo.debugDescription)
             }
             e.fulfill()
         }
         
-        waitForExpectationsWithTimeout(10, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
     }
     
     class Counter {
         var count = 0
-        func increment() { count++ }
+        func increment() { count += 1 }
     }
     
     func testQueryEach() {
-        let e = expectationWithDescription("get")
+        let e = expectation(description: "get")
         
         let c = Counter()
         
-        client.queryDataset("alternative-fuel-locations").filterColumn("fuel_type_code", "CNG").each {[c] res in
+        client.query(dataset: "alternative-fuel-locations").filterColumn("fuel_type_code", "CNG").each {[c] res in
             switch res {
-            case .Row (let row):
+            case .row (let _):
                 c.increment()
-            case .Error (let err):
-                XCTAssert(false, err.userInfo.debugDescription)
+            case .error (let err):
+                XCTAssert(false, (err as NSError).userInfo.debugDescription)
             }
             
             if c.count >= 20 {
@@ -170,7 +170,7 @@ class SODAClientTests: XCTestCase {
             }
         }
         
-        waitForExpectationsWithTimeout(10, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
     }
 
 
