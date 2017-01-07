@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
-  s.name             = "SodaSwift"
+  s.name             = "SODAKit"
   s.version          = "0.1"
-  s.summary          = "soda-swift is a native Swift library to access Socrata OpenData servers. It is compatible with iOS 8 and OS X 10.10."
+  s.summary          = "SODAKit is a native Swift library to access Socrata OpenData servers. It is compatible with iOS 8 and OS X 10.10."
   s.homepage         = "http://socrata.github.io/soda-swift/"
   s.license          = 'Apache'
   s.author           = { "Chris Metcalf" => "" }
