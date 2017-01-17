@@ -13,20 +13,20 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     
-    var data: [[String: AnyObject]]! = []
+    var data: [[String: Any]]! = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        updateWithData(data, animated: false)
+        update(withData: data, animated: false)
     }
     
-    func updateWithData(data: [[String: AnyObject]]!, animated: Bool) {
+    func update(withData data: [[String: Any]]!, animated: Bool) {
         
         // Remember the data because we may not be able to display it yet
         self.data = data
         
-        if (!isViewLoaded()) {
+        if (!isViewLoaded) {
             return
         }
         
@@ -43,16 +43,17 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         // Create annotations for the data
         var anns : [MKAnnotation] = []
         for item in data {
-            if let loc: AnyObject = item["incident_location"] {
-                let lat = (item["latitude"]! as! NSString).doubleValue
-                let lon = (item["longitude"]! as! NSString).doubleValue
-                lata += lat
-                lona += lon
-                let a = MKPointAnnotation()
-                a.title = item["event_clearance_description"]! as! String
-                a.coordinate = CLLocationCoordinate2D (latitude: lat, longitude: lon)
-                anns.append(a)
-            }
+            
+            // item["incident_location"] != nil
+            guard let lat = (item["latitude"] as? NSString)?.doubleValue,
+                let lon = (item["longitude"] as? NSString)?.doubleValue else { continue }
+            
+            lata += lat
+            lona += lon
+            let a = MKPointAnnotation()
+            a.title = item["event_clearance_description"] as? String ?? ""
+            a.coordinate = CLLocationCoordinate2D (latitude: lat, longitude: lon)
+            anns.append(a)
         }
         
         // Set the annotations and center the map
