@@ -101,10 +101,10 @@ The full API Reference can be found in [Reference.md](./Reference.md).
 
 ## Sample App
 
-A sample app that shows alternative fuel locations in Chicago is included.
+A sample app that shows recent police incidents in Seattle is included.
 
 1. Open [soda-swift.xcodeproj](./soda-swift.xcodeproj)
 2. Modify [SODASample/AppDelegate.swift](./SODASample/AppDelegate.swift) to insert your access token
-3. Ensure that the target **SODASample** is selected
+3. Ensure that the target **SODA iOS Sample** is selected
 4. **Run**
 

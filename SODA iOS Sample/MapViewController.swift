@@ -18,7 +18,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        update(withData: data, animated: false)
+        update(withData: data, animated: true)
     }
     
     func update(withData data: [[String: Any]]!, animated: Bool) {
@@ -36,10 +36,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             mapView.removeAnnotations(ex)
         }
         
-        // Longitude and latitude accumulators so we can find the center
-        var lata : CLLocationDegrees = 0.0
-        var lona : CLLocationDegrees = 0.0
-        
+        // Longitude and latitude limits
+        var minLatitude : CLLocationDegrees = 90.0
+        var maxLatitude : CLLocationDegrees = -90.0
+        var minLongitude : CLLocationDegrees = 180.0
+        var maxLongitude : CLLocationDegrees = -180.0
+
         // Create annotations for the data
         var anns : [MKAnnotation] = []
         for item in data {
@@ -48,20 +50,26 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             guard let lat = (item["latitude"] as? NSString)?.doubleValue,
                 let lon = (item["longitude"] as? NSString)?.doubleValue else { continue }
             
-            lata += lat
-            lona += lon
+            minLatitude = min(minLatitude, lat)
+            maxLatitude = max(maxLatitude, lat)
+            minLongitude = min(minLongitude, lon)
+            maxLongitude = max(maxLongitude, lon)
+
             let a = MKPointAnnotation()
             a.title = item["event_clearance_description"] as? String ?? ""
             a.coordinate = CLLocationCoordinate2D (latitude: lat, longitude: lon)
+            a.subtitle = item["at_scene_time"] as? String ?? item["event_clearance_date"] as? String ?? ""
             anns.append(a)
         }
         
         // Set the annotations and center the map
         if (anns.count > 0) {
             mapView.addAnnotations(anns)
-            let w = 1.0 / Double(anns.count)
-            let r = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: lata*w, longitude: lona*w), 2000, 2000)
-            mapView.setRegion(r, animated: animated)
+            let span = MKCoordinateSpanMake(maxLatitude - minLatitude, maxLongitude - minLongitude)
+            let center = CLLocationCoordinate2D(latitude: (maxLatitude + minLatitude)/2.0, longitude: (maxLongitude + minLongitude)/2.0)
+            let region = MKCoordinateRegionMake(center, span)
+//            let r = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: lata*w, longitude: lona*w), 2000, 2000)
+            mapView.setRegion(region, animated: animated)
         }
     }
 }

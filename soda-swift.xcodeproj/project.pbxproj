@@ -7,33 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2D0A1321199806580054B129 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0A1320199806580054B129 /* AppDelegate.swift */; };
-		2D0A1323199806580054B129 /* QueryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0A1322199806580054B129 /* QueryViewController.swift */; };
-		2D0A1325199806580054B129 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0A1324199806580054B129 /* MapViewController.swift */; };
-		2D0A1328199806580054B129 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D0A1326199806580054B129 /* Main.storyboard */; };
-		2D0A132A199806580054B129 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D0A1329199806580054B129 /* Images.xcassets */; };
+		2B5A59831EE231CD00EEC159 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2B5A59821EE231CD00EEC159 /* Info.plist */; };
+		2B5A59851EE247B900EEC159 /* EventDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5A59841EE247B900EEC159 /* EventDetailsViewController.swift */; };
+		2B5A59951EE3852200EEC159 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5A59921EE3852200EEC159 /* AppDelegate.swift */; };
+		2B5A59961EE3852200EEC159 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5A59931EE3852200EEC159 /* MapViewController.swift */; };
+		2B5A59971EE3852200EEC159 /* QueryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5A59941EE3852200EEC159 /* QueryViewController.swift */; };
+		2B5A599A1EE385FB00EEC159 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B5A59981EE385FB00EEC159 /* Main.storyboard */; };
+		2BA1423A1EE22FBC003DF54D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BA142391EE22FBC003DF54D /* Assets.xcassets */; };
+		2BA1423D1EE22FBC003DF54D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BA1423B1EE22FBC003DF54D /* LaunchScreen.storyboard */; };
+		2BA142461EE230A5003DF54D /* SODAClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9E265919972FEF0047C5C8 /* SODAClient.swift */; };
 		2D9E264619972FD20047C5C8 /* SODAKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D9E264519972FD20047C5C8 /* SODAKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2D9E265019972FD20047C5C8 /* SODAClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9E264F19972FD20047C5C8 /* SODAClientTests.swift */; };
 		2D9E265A19972FEF0047C5C8 /* SODAClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9E265919972FEF0047C5C8 /* SODAClient.swift */; };
 		2D9E265B199736E90047C5C8 /* SODAClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9E265919972FEF0047C5C8 /* SODAClient.swift */; };
-		2DC803081998211A00CD8AD5 /* SODAClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9E265919972FEF0047C5C8 /* SODAClient.swift */; };
 		4FB082FC1E184136000814D0 /* Base.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 4FB082F71E184136000814D0 /* Base.xcconfig */; };
 		4FB082FD1E184136000814D0 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 4FB082F81E184136000814D0 /* Debug.xcconfig */; };
 		4FB082FE1E184136000814D0 /* Framework.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 4FB082F91E184136000814D0 /* Framework.xcconfig */; };
 		4FB082FF1E184136000814D0 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 4FB082FA1E184136000814D0 /* Release.xcconfig */; };
 		4FB083001E184136000814D0 /* Tests.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 4FB082FB1E184136000814D0 /* Tests.xcconfig */; };
-		4FEB212C1E15BB2700C242F8 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FEB212A1E15BB0600C242F8 /* MapKit.framework */; };
 		4FF1B2FF1E184C9F0066AB9D /* SODAClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9E265919972FEF0047C5C8 /* SODAClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2D0A131C199806580054B129 /* SODASample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SODASample.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D0A131F199806580054B129 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2D0A1320199806580054B129 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		2D0A1322199806580054B129 /* QueryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryViewController.swift; sourceTree = "<group>"; };
-		2D0A1324199806580054B129 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		2D0A1327199806580054B129 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		2D0A1329199806580054B129 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		2B5A59821EE231CD00EEC159 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2B5A59841EE247B900EEC159 /* EventDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailsViewController.swift; sourceTree = "<group>"; };
+		2B5A59921EE3852200EEC159 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		2B5A59931EE3852200EEC159 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		2B5A59941EE3852200EEC159 /* QueryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueryViewController.swift; sourceTree = "<group>"; };
+		2B5A59991EE385FB00EEC159 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "SODA iOS Sample/Base.lproj/Main.storyboard"; sourceTree = "<group>"; };
+		2BA1422E1EE22FBC003DF54D /* SODA iOS Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SODA iOS Sample.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2BA142391EE22FBC003DF54D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2BA1423C1EE22FBC003DF54D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2D9E264019972FD20047C5C8 /* SODAKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SODAKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D9E264419972FD20047C5C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2D9E264519972FD20047C5C8 /* SODAKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SODAKit.h; sourceTree = "<group>"; };
@@ -51,11 +55,10 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		2D0A1319199806580054B129 /* Frameworks */ = {
+		2BA1422B1EE22FBC003DF54D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4FEB212C1E15BB2700C242F8 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,25 +86,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2D0A131D199806580054B129 /* SODASample */ = {
+		2BA1422F1EE22FBC003DF54D /* SODA iOS Sample */ = {
 			isa = PBXGroup;
 			children = (
-				2D0A1320199806580054B129 /* AppDelegate.swift */,
-				2D0A1324199806580054B129 /* MapViewController.swift */,
-				2D0A1322199806580054B129 /* QueryViewController.swift */,
-				2D0A1326199806580054B129 /* Main.storyboard */,
-				2D0A1329199806580054B129 /* Images.xcassets */,
-				2D0A131E199806580054B129 /* Supporting Files */,
+				2B5A59981EE385FB00EEC159 /* Main.storyboard */,
+				2B5A59941EE3852200EEC159 /* QueryViewController.swift */,
+				2B5A59841EE247B900EEC159 /* EventDetailsViewController.swift */,
+				2B5A59931EE3852200EEC159 /* MapViewController.swift */,
+				2B5A59921EE3852200EEC159 /* AppDelegate.swift */,
+				2BA142391EE22FBC003DF54D /* Assets.xcassets */,
+				2B5A59821EE231CD00EEC159 /* Info.plist */,
+				2BA1423B1EE22FBC003DF54D /* LaunchScreen.storyboard */,
 			);
-			path = SODASample;
-			sourceTree = "<group>";
-		};
-		2D0A131E199806580054B129 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				2D0A131F199806580054B129 /* Info.plist */,
-			);
-			name = "Supporting Files";
+			path = "SODA iOS Sample";
 			sourceTree = "<group>";
 		};
 		2D9E263619972FD10047C5C8 = {
@@ -110,7 +107,7 @@
 				4FB082F61E184125000814D0 /* Configurations */,
 				2D9E264219972FD20047C5C8 /* SODAKit */,
 				2D9E264C19972FD20047C5C8 /* SODATests */,
-				2D0A131D199806580054B129 /* SODASample */,
+				2BA1422F1EE22FBC003DF54D /* SODA iOS Sample */,
 				2D9E264119972FD20047C5C8 /* Products */,
 				4FEB21291E15BB0500C242F8 /* Frameworks */,
 			);
@@ -121,8 +118,8 @@
 			children = (
 				2D9E264019972FD20047C5C8 /* SODAKit.framework */,
 				2D9E264B19972FD20047C5C8 /* SODATests.xctest */,
-				2D0A131C199806580054B129 /* SODASample.app */,
 				4FF1B2F71E184C860066AB9D /* SODAKit.framework */,
+				2BA1422E1EE22FBC003DF54D /* SODA iOS Sample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -203,21 +200,21 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		2D0A131B199806580054B129 /* SODASample */ = {
+		2BA1422D1EE22FBC003DF54D /* SODA iOS Sample */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2D0A1337199806580054B129 /* Build configuration list for PBXNativeTarget "SODASample" */;
+			buildConfigurationList = 2BA142411EE22FBC003DF54D /* Build configuration list for PBXNativeTarget "SODA iOS Sample" */;
 			buildPhases = (
-				2D0A1318199806580054B129 /* Sources */,
-				2D0A1319199806580054B129 /* Frameworks */,
-				2D0A131A199806580054B129 /* Resources */,
+				2BA1422A1EE22FBC003DF54D /* Sources */,
+				2BA1422B1EE22FBC003DF54D /* Frameworks */,
+				2BA1422C1EE22FBC003DF54D /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = SODASample;
-			productName = SODASample;
-			productReference = 2D0A131C199806580054B129 /* SODASample.app */;
+			name = "SODA iOS Sample";
+			productName = "SODA iOS Sample";
+			productReference = 2BA1422E1EE22FBC003DF54D /* SODA iOS Sample.app */;
 			productType = "com.apple.product-type.application";
 		};
 		2D9E263F19972FD10047C5C8 /* SODAKit */ = {
@@ -280,18 +277,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftMigration = 0710;
-				LastSwiftUpdateCheck = 0710;
+				LastSwiftUpdateCheck = 0820;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Socrata;
 				TargetAttributes = {
-					2D0A131B199806580054B129 = {
-						CreatedOnToolsVersion = 6.0;
-						LastSwiftMigration = 0820;
-						SystemCapabilities = {
-							com.apple.Maps.iOS = {
-								enabled = 1;
-							};
-						};
+					2BA1422D1EE22FBC003DF54D = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
 					};
 					2D9E263F19972FD10047C5C8 = {
 						CreatedOnToolsVersion = 6.0;
@@ -323,19 +315,21 @@
 			targets = (
 				2D9E263F19972FD10047C5C8 /* SODAKit */,
 				2D9E264A19972FD20047C5C8 /* SODATests */,
-				2D0A131B199806580054B129 /* SODASample */,
 				4FF1B2F61E184C860066AB9D /* SODAKit (watchOS) */,
+				2BA1422D1EE22FBC003DF54D /* SODA iOS Sample */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		2D0A131A199806580054B129 /* Resources */ = {
+		2BA1422C1EE22FBC003DF54D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2D0A1328199806580054B129 /* Main.storyboard in Resources */,
-				2D0A132A199806580054B129 /* Images.xcassets in Resources */,
+				2B5A59831EE231CD00EEC159 /* Info.plist in Resources */,
+				2BA1423D1EE22FBC003DF54D /* LaunchScreen.storyboard in Resources */,
+				2BA1423A1EE22FBC003DF54D /* Assets.xcassets in Resources */,
+				2B5A599A1EE385FB00EEC159 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -368,14 +362,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		2D0A1318199806580054B129 /* Sources */ = {
+		2BA1422A1EE22FBC003DF54D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2D0A1325199806580054B129 /* MapViewController.swift in Sources */,
-				2DC803081998211A00CD8AD5 /* SODAClient.swift in Sources */,
-				2D0A1321199806580054B129 /* AppDelegate.swift in Sources */,
-				2D0A1323199806580054B129 /* QueryViewController.swift in Sources */,
+				2B5A59951EE3852200EEC159 /* AppDelegate.swift in Sources */,
+				2B5A59851EE247B900EEC159 /* EventDetailsViewController.swift in Sources */,
+				2BA142461EE230A5003DF54D /* SODAClient.swift in Sources */,
+				2B5A59961EE3852200EEC159 /* MapViewController.swift in Sources */,
+				2B5A59971EE3852200EEC159 /* QueryViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,44 +402,64 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		2D0A1326199806580054B129 /* Main.storyboard */ = {
+		2B5A59981EE385FB00EEC159 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				2D0A1327199806580054B129 /* Base */,
+				2B5A59991EE385FB00EEC159 /* Base */,
 			);
 			name = Main.storyboard;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		2BA1423B1EE22FBC003DF54D /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2BA1423C1EE22FBC003DF54D /* Base */,
+			);
+			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		2D0A1338199806580054B129 /* Debug */ = {
+		2BA1423F1EE22FBC003DF54D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = SODASample/Info.plist;
+				INFOPLIST_FILE = "SODA iOS Sample/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.socrata.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.socrata.SODA-iOS-Sample";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		2D0A1339199806580054B129 /* Release */ = {
+		2BA142401EE22FBC003DF54D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				INFOPLIST_FILE = SODASample/Info.plist;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				INFOPLIST_FILE = "SODA iOS Sample/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.socrata.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.socrata.SODA-iOS-Sample";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -618,11 +633,11 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2D0A1337199806580054B129 /* Build configuration list for PBXNativeTarget "SODASample" */ = {
+		2BA142411EE22FBC003DF54D /* Build configuration list for PBXNativeTarget "SODA iOS Sample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2D0A1338199806580054B129 /* Debug */,
-				2D0A1339199806580054B129 /* Release */,
+				2BA1423F1EE22FBC003DF54D /* Debug */,
+				2BA142401EE22FBC003DF54D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
