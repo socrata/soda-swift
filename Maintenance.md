@@ -62,9 +62,9 @@ Xcode unit tests for the library.
 
 These tests require an internet connection to work. Also note that they are asynchronous.
 
-### SODASample
+### SODA iOS Sample
 
-This is a sample iPhone app with two tabs.
+This is a sample iOS app with two tabs.
 
 The Query tab (`QueryViewController.swift`) contains a reference to the `SODAClient` and performs the query when displayed and when the user pulls to refresh. Errors are displayed in an alert if the query fails.
 

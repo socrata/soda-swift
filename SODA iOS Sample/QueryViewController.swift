@@ -14,7 +14,7 @@ class QueryViewController: UITableViewController {
 
     let client = SODAClient(domain: "data.seattle.gov", token: "CGxaHQoQlgQSev4zyUh5aR5J3")
     
-    let cellId = "DetailCell"
+    let cellId = "EventSummaryCell"
     
     var data: [[String: Any]]! = []
                             
@@ -32,9 +32,12 @@ class QueryViewController: UITableViewController {
     /// Asynchronous performs the data query then updates the UI
     func refresh (_ sender: Any) {
 
-        let cngQuery = client.query(dataset: "3k2p-39jp").filter("within_circle(incident_location, 47.59815, -122.334540, 500) AND event_clearance_group IS NOT NULL")
+        // there are about a dozen 1990 records in this particular database that have an incorrectly formatted
+        // cad_event_number, so we'll filter them out to get most recent events first.
+        let cngQuery = client.query(dataset: "3k2p-39jp").filter("event_clearance_group IS NOT NULL AND cad_event_number < '9000209585'")
         
-        cngQuery.orderAscending("at_scene_time").get { res in
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        cngQuery.orderDescending("cad_event_number").get { res in
             switch res {
             case .dataset (let data):
                 // Update our data
@@ -47,6 +50,7 @@ class QueryViewController: UITableViewController {
             
             // Update the UI
             self.refreshControl?.endRefreshing()
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
             self.tableView.reloadData()
             self.updateMap(animated: true)
         }
@@ -60,13 +64,6 @@ class QueryViewController: UITableViewController {
                     map.update(withData: data, animated: animated)
                 }
             }
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // Show the map
-        if let tabs = (self.parent?.parent as? UITabBarController) {
-            tabs.selectedIndex = 1
         }
     }
     
@@ -89,4 +86,17 @@ class QueryViewController: UITableViewController {
         
         return c!
     }
+
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showDetails" {
+            let detailsVC = segue.destination as! EventDetailsViewController
+            detailsVC.eventDictionary = data[self.tableView.indexPathForSelectedRow!.row]
+        }
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+
 }
