@@ -44,8 +44,8 @@ class QueryViewController: UITableViewController {
                 self.data = data
             case .error (let err):
                 let errorMessage = (err as NSError).userInfo.debugDescription
-                let alert = UIAlertView(title: "Error Refreshing", message: errorMessage, delegate: nil, cancelButtonTitle: "OK")
-                alert.show()
+                let alertController = UIAlertController(title: "Error Refreshing", message: errorMessage, preferredStyle:.alert)
+                self.present(alertController, animated: true, completion: nil)
             }
             
             // Update the UI
