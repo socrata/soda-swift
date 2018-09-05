@@ -159,7 +159,7 @@ class SODAClientTests: XCTestCase {
         
         client.query(dataset: "alternative-fuel-locations").filterColumn("fuel_type_code", "CNG").each {[c] res in
             switch res {
-            case .row (let _):
+            case .row (_):
                 c.increment()
             case .error (let err):
                 XCTAssert(false, (err as NSError).userInfo.debugDescription)
