@@ -65,9 +65,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         // Set the annotations and center the map
         if (anns.count > 0) {
             mapView.addAnnotations(anns)
-            let span = MKCoordinateSpanMake(maxLatitude - minLatitude, maxLongitude - minLongitude)
+            let span = MKCoordinateSpan.init(latitudeDelta: maxLatitude - minLatitude, longitudeDelta: maxLongitude - minLongitude)
             let center = CLLocationCoordinate2D(latitude: (maxLatitude + minLatitude)/2.0, longitude: (maxLongitude + minLongitude)/2.0)
-            let region = MKCoordinateRegionMake(center, span)
+            let region = MKCoordinateRegion.init(center: center, span: span)
 //            let r = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: lata*w, longitude: lona*w), 2000, 2000)
             mapView.setRegion(region, animated: animated)
         }
