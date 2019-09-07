@@ -144,7 +144,7 @@ public class SODAClient {
 /// SODAQuery extension to SODAClient
 public extension SODAClient {
     /// Get a query object that can be used to query the client using a fluent syntax.
-    public func query(dataset: String) -> SODAQuery {
+    func query(dataset: String) -> SODAQuery {
         return SODAQuery (client: self, dataset: dataset)
     }
 }

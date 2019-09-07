@@ -6,7 +6,11 @@
 //  Copyright (c) 2014 Socrata, Inc. All rights reserved.
 //
 
+#if SWIFT_PACKAGE
+import SODAKit
+#elseif os(iOS) || os(watchOS) || os(tvOS)
 import UIKit
+#endif
 import XCTest
 
 let token = "(Put your access token here)"
