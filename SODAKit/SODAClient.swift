@@ -11,7 +11,7 @@ import Foundation
 // Reference: http://dev.socrata.com/consumers/getting-started.html
 
 /// The default number of items to return in SODAClient.queryDataset calls.
-let SODADefaultLimit = 1000
+public let SODADefaultLimit = 1000
 
 /// The result of an asynchronous SODAClient.queryDataset call. It can either succeed with data or fail with an error.
 public enum SODADatasetResult {
@@ -144,7 +144,7 @@ public class SODAClient {
 /// SODAQuery extension to SODAClient
 public extension SODAClient {
     /// Get a query object that can be used to query the client using a fluent syntax.
-    public func query(dataset: String) -> SODAQuery {
+    func query(dataset: String) -> SODAQuery {
         return SODAQuery (client: self, dataset: dataset)
     }
 }

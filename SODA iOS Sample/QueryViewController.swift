@@ -23,13 +23,14 @@ class QueryViewController: UITableViewController {
 
         // Create a pull-to-refresh control
         refreshControl = UIRefreshControl ()
-        refreshControl?.addTarget(self, action: #selector(QueryViewController.refresh(_:)), for: UIControlEvents.valueChanged)
+        refreshControl?.addTarget(self, action: #selector(QueryViewController.refresh(_:)), for: UIControl.Event.valueChanged)
         
         // Auto-refresh
         refresh(self)
     }
     
     /// Asynchronous performs the data query then updates the UI
+    @objc
     func refresh (_ sender: Any) {
 
         // there are about a dozen 1990 records in this particular database that have an incorrectly formatted
@@ -72,19 +73,21 @@ class QueryViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let c = tableView.dequeueReusableCell(withIdentifier: cellId) as UITableViewCell!
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellId) else {
+            fatalError("Error: Cell identifier is misconfigured")
+        }
         
         let item = data[indexPath.row]
         
         let name = item["event_clearance_description"]! as! String
-        c?.textLabel?.text = name
+        cell.textLabel?.text = name
         
         let street = item["hundred_block_location"]! as! String
         let city = "Seattle"
         let state = "WA"
-        c?.detailTextLabel?.text = "\(street), \(city), \(state)"
+        cell.detailTextLabel?.text = "\(street), \(city), \(state)"
         
-        return c!
+        return cell
     }
 
     // MARK: - Navigation
